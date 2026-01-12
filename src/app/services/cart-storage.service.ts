@@ -38,19 +38,24 @@ export class CartStorageService {
     }
   }
 
-  addToCart(product: Product): void {
-    this.store.dispatch(addToCart({ product }));
+  addToCart(product: Product, size?: string): void {
+    this.store.dispatch(addToCart({ product, size }));
   }
 
-  removeFromCart(productId: number): void {
-    this.store.dispatch(removeFromCart({ productId }));
+  removeFromCart(productId: number, size?: string): void {
+    this.store.dispatch(removeFromCart({ productId, size }));
   }
 
-  updateQuantity(productId: number, quantity: number): void {
-    this.store.dispatch(updateCartItemQuantity({ productId, quantity }));
+  updateQuantity(productId: number, quantity: number, size?: string): void {
+    this.store.dispatch(updateCartItemQuantity({ productId, quantity, size }));
   }
 
   clearCart(): void {
     this.store.dispatch(clearCart());
+  }
+
+  isProductInCart(productId: number, size?: string): boolean {
+    const cart = this.loadCartFromLocalStorage();
+    return cart.some((item) => item.id === productId && (!size || item.size === size));
   }
 }

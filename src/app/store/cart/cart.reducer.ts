@@ -12,31 +12,37 @@ export const initialState: CartState = {
 
 export const cartReducer = createReducer(
   initialState,
-  on(CartActions.addToCart, (state, { product }) => {
-    const existingItem = state.items.find((item) => item.id === product.id);
+  on(CartActions.addToCart, (state, { product, size }) => {
+    const existingItem = state.items.find((item) => item.id === product.id && (!size || item.size === size));
 
-    if (existingItem) {
+    if (existingItem && existingItem.quantity < 10) {
       return {
         ...state,
         items: state.items.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id && (!size || item.size === size)
+            ? { ...item, quantity: Math.min(item.quantity + 1, 10) }
+            : item
         ),
       };
     }
 
-    return {
-      ...state,
-      items: [...state.items, { ...product, quantity: 1 }],
-    };
+    if (!existingItem) {
+      return {
+        ...state,
+        items: [...state.items, { ...product, quantity: 1, size }],
+      };
+    }
+
+    return state;
   }),
-  on(CartActions.removeFromCart, (state, { productId }) => ({
+  on(CartActions.removeFromCart, (state, { productId, size }) => ({
     ...state,
-    items: state.items.filter((item) => item.id !== productId),
+    items: state.items.filter((item) => !(item.id === productId && (!size || item.size === size))),
   })),
-  on(CartActions.updateCartItemQuantity, (state, { productId, quantity }) => ({
+  on(CartActions.updateCartItemQuantity, (state, { productId, quantity, size }) => ({
     ...state,
     items: state.items.map((item) =>
-      item.id === productId ? { ...item, quantity } : item
+      item.id === productId && (!size || item.size === size) ? { ...item, quantity: Math.min(quantity, 10) } : item
     ),
   })),
   on(CartActions.clearCart, () => ({

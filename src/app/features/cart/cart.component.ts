@@ -35,13 +35,13 @@ export class CartComponent {
   cartItems$ = this.store.select(selectCartItems);
   cartTotal$ = this.store.select(selectCartTotal);
 
-  removeFromCart(productId: number): void {
-    this.cartService.removeFromCart(productId);
+  removeFromCart(productId: number, size?: string): void {
+    this.cartService.removeFromCart(productId, size);
   }
 
-  updateQuantity(productId: number, quantity: number): void {
-    if (quantity > 0) {
-      this.cartService.updateQuantity(productId, quantity);
+  updateQuantity(productId: number, quantity: number, size?: string): void {
+    if (quantity > 0 && quantity <= 10) {
+      this.cartService.updateQuantity(productId, quantity, size);
     }
   }
 

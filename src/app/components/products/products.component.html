@@ -6,35 +6,44 @@
   <ng-template #productsContent>
     <div *ngIf="error$ | async as error; else productsList" class="error-container">
       <div class="error-message">
-        <strong>Error:</strong> {{ error }}
+        <strong>⚠️ Error:</strong> {{ error }}
       </div>
     </div>
 
     <ng-template #productsList>
+      <div class="products-header">
+        <h1>Discover Our Products</h1>
+        <p>Browse through our carefully curated collection</p>
+      </div>
+
       <div class="products-grid">
         <div
           *ngFor="let product of products$ | async; trackBy: trackByProductId"
           class="product-card"
+          [routerLink]="['/product', product.id]"
         >
           <p-card>
             <ng-template pTemplate="header">
               <div class="product-image-container">
-                <img alt="Product" [src]="product.image" class="product-image" />
-              </div>
-            </ng-template>
-
-            <ng-template pTemplate="title">
-              <div class="product-title" [title]="product.title">
-                {{ product.title }}
+                <img
+                  alt="Product"
+                  [src]="product.image"
+                  class="product-image"
+                  loading="lazy"
+                />
               </div>
             </ng-template>
 
             <ng-template pTemplate="content">
-              <div class="product-content">
+              <div class="product-details">
                 <p class="product-category">{{ product.category }}</p>
+                <div class="product-title" [title]="product.title">
+                  {{ product.title }}
+                </div>
                 <p class="product-description">
                   {{ product.description | slice : 0 : 100 }}...
                 </p>
+
                 <div class="product-rating">
                   <p-rating
                     [(ngModel)]="product.rating.rate"
@@ -44,22 +53,19 @@
                   ></p-rating>
                   <span class="rating-count">({{ product.rating.count }})</span>
                 </div>
-              </div>
-            </ng-template>
 
-            <ng-template pTemplate="footer">
-              <div class="product-footer">
-                <span class="product-price"
-                  >${{ product.price | number : '1.2-2' }}</span
-                >
-                <button
-                  pButton
-                  type="button"
-                  label="Add to Cart"
-                  icon="pi pi-shopping-cart"
-                  class="p-button-success"
-                  (click)="addToCart(product)"
-                ></button>
+                <div class="product-footer">
+                  <span class="product-price"
+                    >Rs {{ product.price | number : '1.2-2' }}</span
+                  >
+                  <button
+                    pButton
+                    type="button"
+                    label="View"
+                    icon="pi pi-eye"
+                    class="p-button-info"
+                  ></button>
+                </div>
               </div>
             </ng-template>
           </p-card>

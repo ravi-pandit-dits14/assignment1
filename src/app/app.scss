@@ -1,6 +1,8 @@
 :host {
   display: block;
-  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 ::ng-deep {
@@ -11,69 +13,180 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #2c3e50;
   }
 
   .p-component {
     font-family: inherit;
   }
 
+  /* Header Sticky */
+  app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-shrink: 0;
+  }
+
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  router-outlet ~ * {
+    flex: 1;
+  }
+
+  /* Toolbar Styling */
   .p-toolbar {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+  }
 
-    &.p-toolbar {
-      background-color: #667eea;
-      border-bottom: 3px solid #764ba2;
+  /* Card Styling */
+  .p-card {
+    border-radius: 16px;
+    border: 1px solid #e8eef7;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+      transform: translateY(-8px);
+      border-color: #667eea;
+    }
+
+    .p-card-header {
+      padding: 0 !important;
+      border-bottom: none !important;
+    }
+
+    .p-card-body {
+      padding: 1.5rem !important;
+    }
+
+    .p-card-footer {
+      padding: 1.5rem !important;
+      border-top: 1px solid #ecf0f1 !important;
+      background: transparent !important;
     }
   }
 
-  .p-card {
+  /* Button Styling */
+  .p-button {
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
 
-    &:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    &:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .p-button-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    &:not(:disabled):hover {
+      background: linear-gradient(135deg, #5568d3 0%, #6b3b91 100%);
     }
   }
 
   .p-button-success {
-    background-color: #27ae60;
-    border-color: #27ae60;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    border: none;
+    color: white;
 
-    &:hover {
-      background-color: #229954;
-      border-color: #229954;
+    &:not(:disabled):hover {
+      background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
     }
   }
 
   .p-button-danger {
-    background-color: #e74c3c;
-    border-color: #e74c3c;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border: none;
+    color: white;
 
-    &:hover {
-      background-color: #c0392b;
-      border-color: #c0392b;
+    &:not(:disabled):hover {
+      background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
     }
   }
 
-  .p-message {
-    border-radius: 6px;
+  .p-button-warning {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border: none;
+    color: white;
+
+    &:not(:disabled):hover {
+      background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+    }
   }
 
-  .p-inputnumber {
-    width: 100%;
-  }
-
+  /* Table Styling */
   .p-table {
     border-radius: 8px;
     overflow: hidden;
+
+    .p-datatable-thead > tr > th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+      border: none;
+    }
+
+    .p-datatable-tbody > tr {
+      border-bottom: 1px solid #e0e6ed;
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
   }
 
+  /* Input Number Styling */
+  .p-inputnumber {
+    width: 100%;
+
+    .p-inputnumber-input {
+      border-radius: 6px;
+      border: 1px solid #e0e6ed;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+    }
+  }
+
+  /* Progress Spinner */
+  .p-progress-spinner {
+    svg {
+      color: #667eea;
+    }
+  }
+
+  /* Dialog Styling */
+  .p-dialog {
+    .p-dialog-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+    }
+  }
+
+  /* Utility Classes */
   .mb-4 {
     margin-bottom: 1.5rem;
   }
@@ -86,8 +199,31 @@
     width: 100%;
   }
 
+  /* App Layout */
   app-header {
     display: block;
-    background: white;
+    flex-shrink: 0;
+  }
+
+  app-root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .p-toolbar {
+      padding: 0.75rem 1rem !important;
+    }
+
+    .app-title {
+      font-size: 1.3rem !important;
+    }
+
+    .cart-button {
+      font-size: 0.9rem !important;
+      padding: 0.4rem 0.8rem !important;
+    }
   }
 }

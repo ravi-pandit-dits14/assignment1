@@ -16,6 +16,7 @@
         <ng-template pTemplate="header">
           <tr>
             <th>Product</th>
+            <th>Size</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -30,7 +31,8 @@
                 <span class="product-name">{{ item.title }}</span>
               </div>
             </td>
-            <td>${{ item.price | number : '1.2-2' }}</td>
+            <td>{{ item.size || 'N/A' }}</td>
+            <td>Rs {{ item.price | number : '1.2-2' }}</td>
             <td>
               <p-inputNumber
                 [(ngModel)]="item.quantity"
@@ -40,14 +42,14 @@
                 class="quantity-input"
               ></p-inputNumber>
             </td>
-            <td>${{ (item.price * item.quantity) | number : '1.2-2' }}</td>
+            <td>Rs {{ (item.price * item.quantity) | number : '1.2-2' }}</td>
             <td>
               <button
                 pButton
                 type="button"
                 icon="pi pi-trash"
                 class="p-button-rounded p-button-danger"
-                (click)="removeFromCart(item.id)"
+                (click)="removeFromCart(item.id, item.size)"
               ></button>
             </td>
           </tr>
@@ -63,15 +65,15 @@
           <div class="summary-content">
             <div class="summary-row">
               <span>Subtotal:</span>
-              <span>${{ cartTotal$ | async | number : '1.2-2' }}</span>
+              <span>Rs {{ cartTotal$ | async | number : '1.2-2' }}</span>
             </div>
             <div class="summary-row">
               <span>Shipping:</span>
-              <span>$0.00</span>
+              <span>Rs 0.00</span>
             </div>
             <div class="summary-row total">
               <span>Total:</span>
-              <span>${{ cartTotal$ | async | number : '1.2-2' }}</span>
+              <span>Rs {{ cartTotal$ | async | number : '1.2-2' }}</span>
             </div>
           </div>
 

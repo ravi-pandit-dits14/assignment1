@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -16,6 +17,7 @@ import { Product } from '../../models';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     CardModule,
     ButtonModule,
     ProgressSpinnerModule,
@@ -27,7 +29,6 @@ import { Product } from '../../models';
 })
 export class ProductsComponent implements OnInit {
   private store = inject(Store);
-  private cartService = inject(CartStorageService);
 
   products$ = this.store.select(selectAllProducts);
   loading$ = this.store.select(selectProductsLoading);
@@ -35,10 +36,6 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadProducts());
-  }
-
-  addToCart(product: Product): void {
-    this.cartService.addToCart(product);
   }
 
   trackByProductId(index: number, product: Product): number {

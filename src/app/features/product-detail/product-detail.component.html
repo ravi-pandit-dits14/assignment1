@@ -1,0 +1,179 @@
+<div class="product-detail-container">
+  <div *ngIf="loading()" class="loading-container">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <div *ngIf="error() && !loading()" class="error-container">
+    <div class="error-message">
+      <strong>⚠️ Error:</strong> {{ error() }}
+    </div>
+  </div>
+
+  <div *ngIf="product() && !loading() && !error()" class="product-detail-content">
+    <!-- Back Button -->
+    <div class="back-button-wrapper">
+      <button pButton type="button" icon="pi pi-arrow-left" class="back-btn" routerLink="/">
+        Back to Products
+      </button>
+    </div>
+
+    <!-- Product Details Grid -->
+    <div class="product-details-grid">
+      <!-- Product Image Section -->
+      <div class="product-image-section">
+        <p-card class="image-card">
+          <ng-template pTemplate="content">
+            <div class="image-container">
+              <img [src]="product()!.image" [alt]="product()!.title" class="product-image-large" />
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Product Info Section -->
+      <div class="product-info-section">
+        <p-card class="info-card">
+          <ng-template pTemplate="content">
+            <div class="product-info">
+              <!-- Category -->
+              <span class="product-category">{{ product()!.category | uppercase }}</span>
+
+              <!-- Title -->
+              <h1 class="product-title">{{ product()!.title }}</h1>
+
+              <!-- Rating -->
+              <div class="rating-section">
+                <p-rating
+                  [(ngModel)]="product()!.rating.rate"
+                  [readonly]="true"
+                  iconOnClass="pi pi-star-fill"
+                  iconOffClass="pi pi-star"
+                ></p-rating>
+                <span class="rating-info"
+                  >{{ product()!.rating.rate }} out of 5 ({{ product()!.rating.count }} reviews)</span
+                >
+              </div>
+
+              <!-- Price and Stock -->
+              <div class="price-stock-section">
+                <div class="price">
+                  <span class="price-label">Price:</span>
+                  <span class="price-value">Rs {{ product()!.price | number : '1.2-2' }}</span>
+                </div>
+                <div class="stock">
+                  <span class="stock-label">Availability:</span>
+                  <span class="stock-value in-stock">✓ In Stock</span>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="description-section">
+                <h3 class="section-title">Product Description</h3>
+                <p class="description-text">{{ product()!.description }}</p>
+              </div>
+
+              <!-- Size Selection -->
+              <div class="size-selection-section">
+                <h3 class="section-title">Select Size</h3>
+                <div class="size-options">
+                  <button
+                    *ngFor="let size of availableSizes"
+                    type="button"
+                    class="size-btn"
+                    [class.selected]="selectedSize() === size"
+                    (click)="onSizeSelected(size)"
+                  >
+                    {{ size }}
+                  </button>
+                </div>
+                <p *ngIf="!selectedSize()" class="size-warning">Please select a size</p>
+              </div>
+
+              <!-- Add to Cart Section -->
+              <div class="add-to-cart-section">
+                <div class="quantity-wrapper">
+                  <label for="quantity" class="quantity-label">Quantity (Max 10):</label>
+                  <p-inputNumber
+                    [ngModel]="quantity()"
+                    (ngModelChange)="quantity.set($event)"
+                    [min]="1"
+                    [max]="10"
+                    class="quantity-input"
+                  ></p-inputNumber>
+                </div>
+                <button
+                  pButton
+                  type="button"
+                  [icon]="isInCart() ? 'pi pi-arrow-right' : 'pi pi-shopping-cart'"
+                  [label]="isInCart() ? 'Go to Cart' : 'Add to Cart'"
+                  [class.go-to-cart]="isInCart()"
+                  class="add-to-cart-btn"
+                  (click)="addToCart()"
+                  [disabled]="!selectedSize()"
+                ></button>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <h2 class="reviews-title">Customer Reviews</h2>
+
+      <div class="reviews-container">
+        <!-- Rating Overview -->
+        <div class="rating-overview">
+          <div class="overall-rating">
+            <div class="average-rating">{{ getAverageRating() }}</div>
+            <div class="average-label">Overall Rating</div>
+            <p-rating
+              [(ngModel)]="product()!.rating.rate"
+              [readonly]="true"
+              iconOnClass="pi pi-star-fill"
+              iconOffClass="pi pi-star"
+            ></p-rating>
+            <div class="total-reviews">Based on {{ reviews.length }} reviews</div>
+          </div>
+
+          <!-- Rating Distribution -->
+          <div class="rating-distribution">
+            <div *ngFor="let dist of getRatingDistribution()" class="rating-bar">
+              <span class="rating-label">{{ dist.rating }} ★</span>
+              <div class="bar-wrapper">
+                <div class="bar-fill" [style.width.%]="dist.percentage"></div>
+              </div>
+              <span class="rating-count">{{ dist.count }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Reviews -->
+        <div class="reviews-list">
+          <h3 class="reviews-list-title">Latest Reviews</h3>
+          <div *ngFor="let review of reviews" class="review-card">
+            <div class="review-header">
+              <div class="reviewer-info">
+                <div class="reviewer-name">{{ review.author }}</div>
+                <div class="review-date">{{ review.date }}</div>
+              </div>
+              <div *ngIf="review.verified" class="verified-badge">✓ Verified Purchase</div>
+            </div>
+
+            <div class="review-rating">
+              <p-rating
+                [(ngModel)]="review.rating"
+                [readonly]="true"
+                iconOnClass="pi pi-star-fill"
+                iconOffClass="pi pi-star"
+              ></p-rating>
+            </div>
+
+            <p class="review-text">{{ review.text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

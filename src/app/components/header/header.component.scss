@@ -1,44 +1,96 @@
 :host ::ng-deep {
   .p-toolbar {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #e9ecef;
-    padding: 1rem 1.5rem;
-  }
-
-  .app-title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c3e50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+    padding: 1rem 2rem !important;
   }
 
   .toolbar-left {
     display: flex;
     align-items: center;
+    gap: 2rem;
+  }
+
+  .app-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .toolbar-spacer {
+    flex: 1;
   }
 
   .cart-icon-wrapper {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    perspective: 1000px;
   }
 
   .cart-button {
-    font-size: 1.25rem;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem !important;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    will-change: auto;
+  }
+
+  .cart-button:not(:disabled):hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .cart-button:not(:disabled):active {
+    transform: translateY(0);
   }
 
   .cart-badge {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
     color: white;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    font-weight: bold;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+    border: 3px solid white;
+    animation: badgePulse 0.6s ease-out;
+  }
+
+  @keyframes badgePulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 }

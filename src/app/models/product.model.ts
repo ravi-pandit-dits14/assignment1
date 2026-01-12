@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   category: string;
   image: string;
+  images?: string[];
   rating: {
     rate: number;
     count: number;
@@ -13,4 +14,5 @@ export interface Product {
 
 export interface CartItem extends Product {
   quantity: number;
+  size?: string;
 }
