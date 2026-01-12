@@ -1,0 +1,44 @@
+:host ::ng-deep {
+  .p-toolbar {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    padding: 1rem 1.5rem;
+  }
+
+  .app-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-icon-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .cart-button {
+    font-size: 1.25rem;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+}

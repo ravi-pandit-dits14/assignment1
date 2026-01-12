@@ -1,0 +1,108 @@
+<div class="cart-container">
+  <h2>Shopping Cart</h2>
+
+  <div *ngIf="(cartItems$ | async)?.length === 0; else cartContent" class="empty-cart">
+    <p-message
+      severity="info"
+      text="Your cart is empty"
+      styleClass="w-full"
+    ></p-message>
+    <button pButton type="button" label="Continue Shopping" icon="pi pi-arrow-left" routerLink="/" class="mt-3"></button>
+  </div>
+
+  <ng-template #cartContent>
+    <div class="cart-content">
+      <p-table [value]="(cartItems$ | async) || []" responsiveLayout="scroll" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>
+              <div class="product-info">
+                <img [src]="item.image" alt="Product" class="product-img" />
+                <span class="product-name">{{ item.title }}</span>
+              </div>
+            </td>
+            <td>${{ item.price | number : '1.2-2' }}</td>
+            <td>
+              <p-inputNumber
+                [(ngModel)]="item.quantity"
+                [min]="1"
+                [max]="100"
+                (onBlur)="updateQuantity(item.id, item.quantity)"
+                class="quantity-input"
+              ></p-inputNumber>
+            </td>
+            <td>${{ (item.price * item.quantity) | number : '1.2-2' }}</td>
+            <td>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="removeFromCart(item.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div class="cart-summary">
+        <p-card>
+          <ng-template pTemplate="header">
+            <span class="summary-header">Order Summary</span>
+          </ng-template>
+
+          <div class="summary-content">
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span>${{ cartTotal$ | async | number : '1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping:</span>
+              <span>$0.00</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total:</span>
+              <span>${{ cartTotal$ | async | number : '1.2-2' }}</span>
+            </div>
+          </div>
+
+          <div class="summary-actions">
+            <button
+              pButton
+              type="button"
+              label="Continue Shopping"
+              icon="pi pi-arrow-left"
+              class="p-button-outlined"
+              routerLink="/"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Clear Cart"
+              icon="pi pi-times"
+              class="p-button-danger p-button-outlined"
+              (click)="clearCart()"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Checkout"
+              icon="pi pi-check"
+              class="p-button-success"
+              (click)="checkout()"
+            ></button>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </ng-template>
+</div>

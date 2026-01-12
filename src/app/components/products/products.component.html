@@ -1,0 +1,70 @@
+<div class="products-container">
+  <div *ngIf="loading$ | async; else productsContent" class="loading-container">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <ng-template #productsContent>
+    <div *ngIf="error$ | async as error; else productsList" class="error-container">
+      <div class="error-message">
+        <strong>Error:</strong> {{ error }}
+      </div>
+    </div>
+
+    <ng-template #productsList>
+      <div class="products-grid">
+        <div
+          *ngFor="let product of products$ | async; trackBy: trackByProductId"
+          class="product-card"
+        >
+          <p-card>
+            <ng-template pTemplate="header">
+              <div class="product-image-container">
+                <img alt="Product" [src]="product.image" class="product-image" />
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="title">
+              <div class="product-title" [title]="product.title">
+                {{ product.title }}
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+              <div class="product-content">
+                <p class="product-category">{{ product.category }}</p>
+                <p class="product-description">
+                  {{ product.description | slice : 0 : 100 }}...
+                </p>
+                <div class="product-rating">
+                  <p-rating
+                    [(ngModel)]="product.rating.rate"
+                    [readonly]="true"
+                    iconOnClass="pi pi-star-fill"
+                    iconOffClass="pi pi-star"
+                  ></p-rating>
+                  <span class="rating-count">({{ product.rating.count }})</span>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+              <div class="product-footer">
+                <span class="product-price"
+                  >${{ product.price | number : '1.2-2' }}</span
+                >
+                <button
+                  pButton
+                  type="button"
+                  label="Add to Cart"
+                  icon="pi pi-shopping-cart"
+                  class="p-button-success"
+                  (click)="addToCart(product)"
+                ></button>
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

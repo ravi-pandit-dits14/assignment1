@@ -45,3 +45,49 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+
+Assignment: Shopping Cart Application using NgRx
+(Angular)
+Objective
+Create a Shopping Cart web application using Angular and NgRx to demonstrate state
+management, scalable architecture, and best practices.
+Tech Stack
+1 Angular (v15 or above)
+2 NgRx (Store, Actions, Reducers, Effects)
+3 RxJS
+4 Angular Router
+5 SCSS / CSS
+6 Mock API (JSON Server or static JSON)
+Functional Requirements
+1. Product Listing Page
+1 Fetch products from a mock API using NgRx Effects
+2 Display product name, price, image, and Add to Cart button
+2. Shopping Cart Module
+1 Add product to cart
+2 Increase / Decrease quantity
+3 Remove product from cart
+4 Clear cart
+5 Show total price and item count
+3. State Management
+App State Structure:
+• Products State (Load, Success, Failure)
+• Cart State (Add, Remove, Update Quantity, Clear)
+NgRx Implementation Requirements
+1 Actions using createAction
+2 Reducers using createReducer
+3 Selectors using createSelector
+4 Effects for API calls
+5 Strong typing (avoid any)
+Bonus (Optional)
+1 Persist cart in localStorage
+2 Use NgRx Entity
+3 Lazy-loaded Cart module
+4 Loader and error handling
+5 Cart count in header
+Evaluation Criteria
+1 NgRx architecture and flow
+2 Code quality and folder structure
+3 RxJS usage
+4 Angular best practices
+5 Error handling and optimizatio
