@@ -90,4 +90,4 @@ Evaluation Criteria
 2 Code quality and folder structure
 3 RxJS usage
 4 Angular best practices
-5 Error handling and optimizatio
+5 Error handling and optimization
