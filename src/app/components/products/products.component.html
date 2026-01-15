@@ -11,14 +11,73 @@
     </div>
 
     <ng-template #productsList>
-      <div class="products-header">
-        <h1>Discover Our Products</h1>
-        <p>Browse through our carefully curated collection</p>
+      <!-- Search and Filter Section -->
+      <div class="search-filter-section">
+        <!-- Search Input -->
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search products..."
+            [value]="searchQuery()"
+            (input)="onSearch($event.target.value)"
+            class="search-input"
+          />
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-container">
+          <div class="filter-header">
+            <h3 class="filter-title">
+              <i class="pi pi-filter"></i>
+              Filter by Category
+            </h3>
+            <button
+              *ngIf="selectedCategory()"
+              type="button"
+              pButton
+              label="Clear Filter"
+              icon="pi pi-times"
+              class="clear-filter-btn"
+              (click)="selectCategory(null)"
+            ></button>
+          </div>
+
+          <div class="category-filter">
+            <button
+              *ngFor="let category of categories()"
+              type="button"
+              pButton
+              [label]="category"
+              [class.active]="selectedCategory() === category"
+              (click)="selectCategory(category)"
+              class="category-btn"
+            ></button>
+          </div>
+
+          <p *ngIf="selectedCategory()" class="active-filter-info">
+            <i class="pi pi-check-circle"></i>
+            Showing products in: <strong>{{ selectedCategory() }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Results Info -->
+      <div class="results-info">
+        <p *ngIf="filteredProducts().length > 0" class="result-count">
+          Showing {{ filteredProducts().length }} product(s)
+          <span *ngIf="selectedCategory()">in <strong>{{ selectedCategory() }}</strong></span>
+          <span *ngIf="searchQuery()">matching <strong>"{{ searchQuery() }}"</strong></span>
+        </p>
+        <p *ngIf="filteredProducts().length === 0" class="no-results">
+          No products found. Try adjusting your search or filters.
+        </p>
       </div>
 
       <div class="products-grid">
         <div
-          *ngFor="let product of products$ | async; trackBy: trackByProductId"
+          *ngFor="let product of filteredProducts(); trackBy: trackByProductId"
           class="product-card"
           [routerLink]="['/product', product.id]"
         >
@@ -54,17 +113,15 @@
                   <span class="rating-count">({{ product.rating.count }})</span>
                 </div>
 
+                <div *ngIf="product.deliveryDate" class="product-delivery">
+                  <i class="pi pi-truck"></i>
+                  <span>Delivery: {{ product.deliveryDate }}</span>
+                </div>
+
                 <div class="product-footer">
                   <span class="product-price"
                     >Rs {{ product.price | number : '1.2-2' }}</span
                   >
-                  <button
-                    pButton
-                    type="button"
-                    label="View"
-                    icon="pi pi-eye"
-                    class="p-button-info"
-                  ></button>
                 </div>
               </div>
             </ng-template>

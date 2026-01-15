@@ -10,6 +10,7 @@ export interface Product {
     rate: number;
     count: number;
   };
+  deliveryDate?: string;
 }
 
 export interface CartItem extends Product {
